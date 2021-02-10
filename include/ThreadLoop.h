@@ -9,7 +9,7 @@
 #include <sstream>
 #include <cstdlib>
 
-using CallbackRunnable = std::function<void()>;
+using Task = std::function<void()>;
 
 class Runnable {
 public:
@@ -33,8 +33,8 @@ public:
     ThreadLoop(std::shared_ptr<Runnable> looper) : mLooper(looper) {
     }
 
-    ThreadLoop(const CallbackRunnable &func) {
-        mCallbackList.push_back(func);
+    ThreadLoop(const Task &func) {
+        mTaskList.push_back(func);
     }
 
 
@@ -56,8 +56,8 @@ public:
                 mLooper->run();
             }
 
-            if (!mCallbackList.empty()) {
-                for (auto &func : mCallbackList) {
+            if (!mTaskList.empty()) {
+                for (auto &func : mTaskList) {
                     func();
                 }
             }
@@ -76,7 +76,7 @@ private:
     }
 
 private:
-    std::vector<CallbackRunnable> mCallbackList{};
+    std::vector<Task> mTaskList{};
     std::shared_ptr<Runnable> mLooper;
     std::thread mThread;
     std::promise<void> mExitSignal;

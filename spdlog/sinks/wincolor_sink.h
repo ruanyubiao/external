@@ -23,14 +23,7 @@ namespace sinks {
 template<typename ConsoleMutex>
 class wincolor_sink : public sink
 {
-public:
-    const std::uint16_t BOLD;
-    const std::uint16_t RED;
-    const std::uint16_t GREEN;
-    const std::uint16_t CYAN;
-    const std::uint16_t WHITE;
-    const std::uint16_t YELLOW;
-
+public:   
     wincolor_sink(void *out_handle, color_mode mode);
     ~wincolor_sink() override;
 
@@ -48,8 +41,7 @@ public:
 protected:
     using mutex_t = typename ConsoleMutex::mutex_t;
     void *out_handle_;
-    mutex_t &mutex_;
-    bool in_console_;
+    mutex_t &mutex_;    
     bool should_do_colors_;
     std::unique_ptr<spdlog::formatter> formatter_;
     std::array<std::uint16_t, level::n_levels> colors_;
@@ -62,6 +54,8 @@ protected:
 
     // in case we are redirected to file (not in console mode)
     void write_to_file_(const memory_buf_t &formatted);
+
+    void set_color_mode_impl(color_mode mode);
 };
 
 template<typename ConsoleMutex>

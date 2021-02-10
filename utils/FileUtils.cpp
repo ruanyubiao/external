@@ -22,10 +22,10 @@ std::shared_ptr<std::vector<uint8_t>> FileUtils::get_file_bin(const std::string 
 
 std::shared_ptr<std::string> FileUtils::get_file_str(const std::string &filename) {
     std::shared_ptr<std::string> ret;
-    std::stringstream buffer;
 
     std::ifstream in(filename.c_str());
     if (in.good()) {
+        std::stringstream buffer;
         buffer << in.rdbuf();
         return std::make_shared<std::string>(buffer.str());
     }
@@ -46,9 +46,11 @@ bool FileUtils::write_file_bin(const std::string &filename, const char *content,
     return state;
 }
 
-bool exist(const std::string &name) {
+bool FileUtils::exist(const std::string &name) {
     std::ifstream in(name);
-    return in.good();
+    bool state = in.good();
+    in.close();
+    return state;
 }
 /*
 int write_file_bin_c(const char* filename, const char* content, int size, bool newfile)
