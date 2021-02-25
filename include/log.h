@@ -1,4 +1,4 @@
-#ifndef __EXTERNAL_LOG_H__
+﻿#ifndef __EXTERNAL_LOG_H__
 #define __EXTERNAL_LOG_H__
 
 #include "spdlog/spdlog.h"
@@ -43,7 +43,7 @@ public:
         spdlog::drop_all();
     };
 
-    inline auto getLogger() { return mLogger; }
+    inline std::shared_ptr<spdlog::logger> getLogger() { return mLogger; }
 
 private:
     std::shared_ptr<spdlog::logger> mLogger;
