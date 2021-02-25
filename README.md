@@ -7,8 +7,8 @@ https://github.com/ReneNyffenegger/cpp-base64
 # http
 https://gitlab.com/eidheim/Simple-Web-Server
 
-* http_client.cpp: ¿Í»§¶Ë·¢ÏûÏ¢Ê¾ÀıÊ¾Àı³ÌĞò
-* http_server.cpp: ·şÎñ¶Ë¼àÌıÊ¾ÀıÊ¾Àı³ÌĞò
+* http_client.cpp: å®¢æˆ·ç«¯å‘æ¶ˆæ¯ç¤ºä¾‹ç¤ºä¾‹ç¨‹åº
+* http_server.cpp: æœåŠ¡ç«¯ç›‘å¬ç¤ºä¾‹ç¤ºä¾‹ç¨‹åº
 
 
 
