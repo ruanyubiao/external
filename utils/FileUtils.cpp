@@ -21,8 +21,6 @@ std::shared_ptr<std::vector<uint8_t>> FileUtils::get_file_bin(const std::string 
 }
 
 std::shared_ptr<std::string> FileUtils::get_file_str(const std::string &filename) {
-    std::shared_ptr<std::string> ret;
-
     std::ifstream in(filename.c_str());
     if (in.good()) {
         std::stringstream buffer;
@@ -30,7 +28,7 @@ std::shared_ptr<std::string> FileUtils::get_file_str(const std::string &filename
         return std::make_shared<std::string>(buffer.str());
     }
 
-    return ret;
+    return nullptr;
 }
 
 bool FileUtils::write_file_bin(const std::string &filename, const char *content, int size, bool newfile) {
