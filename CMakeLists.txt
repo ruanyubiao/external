@@ -8,6 +8,7 @@ option(BUILD_EXT_HTTP "Build with internal http support" ON)
 option(BUILD_EXT_UTILS "Build with internal utils support" ON)
 option(BUILD_EXT_XXTEA "Build with internal xxtea support" ON)
 option(BUILD_EXT_CONVERTUTF "Build with internal ConvertUTF support" ON)
+option(BUILD_EXT_SQLITE3 "Build with internal Sqlite3 support" ON)
 
 add_library(external empty.cpp)
 
@@ -31,6 +32,10 @@ if (BUILD_EXT_CONVERTUTF)
     add_subdirectory(ConvertUTF)
     target_link_libraries(external ext_convertUTF)
 endif (BUILD_EXT_CONVERTUTF)
+if (BUILD_EXT_SQLITE3)
+    add_subdirectory(sqlite3)
+    target_link_libraries(external ext_sqlite3)
+endif (BUILD_EXT_SQLITE3)
 
 
 if (NOT LINUX)
