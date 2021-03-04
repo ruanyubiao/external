@@ -8,6 +8,7 @@
 #include <sstream>
 #include <chrono>
 #include <future>
+#include "utils/ShareUtils.h"
 #include "ThreadPool.h"
 
 #include "log.h"
@@ -91,7 +92,7 @@ namespace http {
     };
 
 
-    HttpServer::HttpServer(unsigned short port) : pImpl(new HttpServerImpl(port)) {
+    HttpServer::HttpServer(unsigned short port) : pImpl(ShareUtils::make_unique<HttpServerImpl>(port)) {
 
     }
 

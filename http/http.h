@@ -1,7 +1,6 @@
 #ifndef __EXTERNAL_HTTPSERVER_H__
 #define __EXTERNAL_HTTPSERVER_H__
 
-
 #include <memory>
 #include <string>
 #include <functional>
@@ -33,8 +32,6 @@ namespace http {
      *
      */
     class HttpServer {
-    private:
-        class HttpServerImpl;
 
     public:
         using Router = std::function<std::string(const Request &)>;
@@ -50,7 +47,17 @@ namespace http {
 
         ~HttpServer();
 
+        HttpServer(const HttpServer &) = delete;
+
+        HttpServer(const HttpServer &&) = delete;
+
+        HttpServer &operator=(const HttpServer &) = delete;
+
+        HttpServer &operator=(const HttpServer &&) = delete;
+
     private:
+        class HttpServerImpl;
+
         std::unique_ptr<HttpServerImpl> pImpl;
     };
 
