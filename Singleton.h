@@ -1,9 +1,6 @@
 #ifndef __SINGLETON_H__
 #define __SINGLETON_H__
 
-
-#include <memory>
-
 template<class T>
 class Singleton {
 public:
@@ -13,9 +10,9 @@ public:
 //        return m_instance;
 //    }
 
-    static std::shared_ptr<T> instance() {
-        static std::shared_ptr<T> s = std::make_shared<T>();
-        return s;
+    static T *instance() {
+        static T t;
+        return &t;
     }
 
     Singleton(const Singleton &) = delete;
