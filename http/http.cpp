@@ -6,12 +6,8 @@
 
 #include <thread>
 #include <sstream>
-#include <chrono>
-#include <future>
 #include "utils/ShareUtils.h"
 #include "ThreadPool.h"
-
-#include "log.h"
 #include "server_http.hpp"
 
 
@@ -71,9 +67,9 @@ namespace http {
         void start(bool use_thread_join) {
             std::thread server_thread([this]() {
                 mServer.start([](unsigned short port) {
-                    CCLOG("HttpServer listening {}", port);
+                    std::cout << "HttpServer listening " << port << std::endl;
                 });
-                CCLOG("http thread over");
+                std::cout << "http thread over" << std::endl;
             });
             if (use_thread_join) {
                 server_thread.join();

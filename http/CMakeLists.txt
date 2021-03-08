@@ -22,3 +22,5 @@ set_target_properties(${target_name}
         FOLDER "External"
         )
 
+target_link_libraries(${target_name})
+
