@@ -6,6 +6,7 @@
 #include <string>
 
 class FileUtils {
+public:
     static std::shared_ptr<std::vector<uint8_t>> get_file_bin(const std::string &filename);
 
     static std::shared_ptr<std::string> get_file_str(const std::string &filename);
