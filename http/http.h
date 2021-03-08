@@ -39,9 +39,12 @@ namespace http {
 
         explicit HttpServer(unsigned short port = 8080);
 
-        void set_router(const std::string &path, Router cb);
+        void set_router(const Router &cb, const std::string &path, const std::string &method = "POST");
+
+        void set_error(const std::function<void(const Request &)> &cb);
 
         void start(bool use_thread_join = true);
+
 
         void stop();
 
