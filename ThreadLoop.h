@@ -8,66 +8,58 @@
 #include <utility>
 #include <sstream>
 #include <cstdlib>
+#include "log.h"
 
-using Task = std::function<void()>;
-
-class Runnable {
-public:
-    void sleep_second(int second) {
-        std::this_thread::sleep_for(std::chrono::seconds(second));
-    }
-
-    void sleep_millisecond(int millisecond) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(millisecond));
-    }
-
-    void sleep_microsecond(int microsecond) {
-        std::this_thread::sleep_for(std::chrono::microseconds(microsecond));
-    }
-
-    virtual void run() = 0;
-};
 
 class ThreadLoop {
 public:
-    ThreadLoop(std::shared_ptr<Runnable> looper) : mLooper(looper) {
+    ThreadLoop() = default;
+
+    explicit ThreadLoop(std::function<void()> func, int sleep_ms = 1) : m_task(std::move(func)), m_sleep_ms(sleep_ms) {
     }
 
-    ThreadLoop(const Task &func) {
-        mTaskList.push_back(func);
+
+    void set_task(std::function<void()> func) {
+        m_task = std::move(func);
     }
 
+    void set_sleep_ms(int sleep_ms) {
+        m_sleep_ms = sleep_ms;
+    }
 
     void start() {
-        mThread = std::thread([this]() { this->loop(this->mExitSignal.get_future()); });
-        mThread.detach();
+        m_thread = std::thread(&ThreadLoop::loop, this);
+//        m_thread.detach();
     }
 
-    void stop() { mExitSignal.set_value(); }
-
-    virtual ~ThreadLoop() {
-        printf("destroy %s\n", __func__);
+    void stop() {
+        m_thread_stop = true;
     }
 
-    void loop(std::future<void> exitListner) {
-        printf("start %s, %ld\n", __func__, getThreadID());
-        do {
-            if (mLooper) {
-                mLooper->run();
+    ~ThreadLoop() {
+        CCLOG("ThreadLoop::destroy {}", __func__, get_thread_id());
+        if (m_thread.joinable()) {
+            m_thread.join();
+        }
+    }
+
+    void loop() {
+        CCLOG("ThreadLoop::start {}, {}", __func__, get_thread_id());
+        while (!m_thread_stop) {
+            m_task();
+            if (m_sleep_ms > 0) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(m_sleep_ms));
             }
-
-            if (!mTaskList.empty()) {
-                for (auto &func : mTaskList) {
-                    func();
-                }
-            }
-
-        } while (exitListner.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout);
-        printf("exit %s\n", __func__);
+        }
+        CCLOG("ThreadLoop::exit {}", __func__, get_thread_id());
     }
+
+    ThreadLoop(const ThreadLoop &) = delete;
+
+    ThreadLoop &operator=(const ThreadLoop &) = delete;
 
 private:
-    int64_t getThreadID() {
+    int64_t get_thread_id() {
         std::stringstream ss;
         ss << std::this_thread::get_id();
         std::string result;
@@ -76,10 +68,10 @@ private:
     }
 
 private:
-    std::vector<Task> mTaskList{};
-    std::shared_ptr<Runnable> mLooper;
-    std::thread mThread;
-    std::promise<void> mExitSignal;
+    std::function<void()> m_task;
+    int m_sleep_ms = 1;
+    bool m_thread_stop = false;
+    std::thread m_thread;
 };
 
 
