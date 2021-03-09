@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(external)
 
-set(CMAKE_CXX_STANDARD 11)
+#set(CMAKE_CXX_STANDARD 11)
 
 option(BUILD_EXT_BASE64 "Build with internal base64 support" ON)
 option(BUILD_EXT_HTTP "Build with internal http support" ON)
@@ -82,4 +82,12 @@ set_target_properties(external
 
 if (NOT MSVC)
     target_link_libraries(external pthread dl)
+endif ()
+
+
+if ("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "aarch64")
+    if (NOT (${CMAKE_CXX_STANDARD} LESS 17))
+        # 安霸c++17 filesystem需要这个库
+        target_link_libraries(external stdc++fs)
+    endif ()
 endif ()
