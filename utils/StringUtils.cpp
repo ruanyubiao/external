@@ -115,5 +115,27 @@ namespace StringUtils {
         return str;
     }
 
+    inline std::string &ltrim(std::string &str) {
+        auto iter = std::find_if(str.begin(), str.end(), [](const char &ch) {
+            return !isspace(ch);
+        });
+        str.erase(str.begin(), iter);
+        return str;
+    }
+
+    inline std::string &rtrim(std::string &str) {
+        auto iter = std::find_if(str.rbegin(), str.rend(), [](const char &ch) {
+            return !isspace(ch);
+        });
+        str.erase(iter.base(), str.end());
+
+        return str;
+    }
+
+    inline std::string &trim(std::string &str) {
+        ltrim(rtrim(str));
+        return str;
+    }
+
 
 }

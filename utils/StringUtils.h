@@ -21,6 +21,12 @@ namespace StringUtils {
 
     std::string &replace_all(std::string &str, const std::string &old_value, const std::string &new_value);
 
+    inline std::string &ltrim(std::string &str);
+
+    inline std::string &rtrim(std::string &str);
+
+    inline std::string &trim(std::string &str);
+
 }
 
 
