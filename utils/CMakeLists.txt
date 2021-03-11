@@ -8,6 +8,7 @@ project(${lib_name})
 set(${target_name}_src
         FileUtils.cpp
         StringUtils.cpp
+        SystemUtils.cpp
         )
 
 add_library(${target_name} STATIC
