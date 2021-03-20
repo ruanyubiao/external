@@ -124,7 +124,7 @@ namespace http {
     };
 
 
-    HttpServer::HttpServer(unsigned short port) : pImpl(ShareUtils::make_unique<HttpServerImpl>(port)) {
+    HttpServer::HttpServer(unsigned short port) : pImpl(std::make_unique<HttpServerImpl>(port)) {
 
     }
 

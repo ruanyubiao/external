@@ -8,8 +8,10 @@ namespace ShareUtils {
     std::shared_ptr<T> make_shared_array(size_t size) {
         return std::shared_ptr<T>(new T[size], std::default_delete<T[]>());
     }
+}
 
 #if __cplusplus <= 201103L
+namespace std {
 
     template<typename T, typename... Args>
     inline typename std::enable_if<!std::is_array<T>::value, std::unique_ptr<T>>::type
@@ -28,11 +30,7 @@ namespace ShareUtils {
     template<typename T, typename... Args>
     inline typename std::enable_if<std::extent<T>::value != 0, void>::type
     make_unique(Args &&...) = delete;
-
-#else
-    using std::make_unique;
-#endif
 }
-
+#endif
 
 #endif //__EXTERNAL_SHAREUTILS_H__
