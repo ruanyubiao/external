@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.6)
 
 set(lib_name sqlite3)
 set(target_name ext_${lib_name})
