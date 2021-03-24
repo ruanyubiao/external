@@ -15800,6 +15800,7 @@ class serializer
     }
 
   private:
+    const char HEX[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
     /*!
     @brief dump escaped string
 
@@ -15962,10 +15963,10 @@ class serializer
                                 {
                                     string_buffer[bytes++] = '\\';
                                     string_buffer[bytes++] = 'u';
-                                    string_buffer[bytes++] = 'f';
-                                    string_buffer[bytes++] = 'f';
-                                    string_buffer[bytes++] = 'f';
-                                    string_buffer[bytes++] = 'd';
+                                    string_buffer[bytes++] = '0';
+                                    string_buffer[bytes++] = '0';
+                                    string_buffer[bytes++] = HEX[(byte >> 4) & 0x0F];
+                                    string_buffer[bytes++] = HEX[byte & 0x0F];
                                 }
                                 else
                                 {
