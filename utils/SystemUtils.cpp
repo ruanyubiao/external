@@ -2,10 +2,11 @@
 #include "SystemUtils.h"
 
 namespace sys {
-    std::string system(const std::string &cmd) {
+    std::string system(const std::string& cmd) {
         std::string ret;
-        char buf[1024] = {0};
-        FILE *fp = popen(cmd.c_str(), "r");
+        char buf[1024] = { 0 };
+#ifdef __linux
+        FILE* fp = popen(cmd.c_str(), "r");
         if (fp == nullptr) {
             printf("popen error!\n");
             return "";
@@ -14,6 +15,8 @@ namespace sys {
         while (fgets(buf, sizeof(buf), fp)) {
             ret += buf;
         }
+#else
+#endif
         return ret;
     }
 
