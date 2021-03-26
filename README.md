@@ -27,3 +27,9 @@ https://github.com/nlohmann/json
 
 # md5.hpp
 https://github.com/zaphoyd/websocketpp/tree/master/websocketpp/common/md5.hpp
+
+# asio
+http://think-async.com/Asio/
+https://sourceforge.net/projects/asio/
+
+
