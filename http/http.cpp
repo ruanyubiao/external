@@ -8,7 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
-#include "utils/ShareUtils.h"
+#include <memory>
 #include "ThreadPool.h"
 #include "server_http.hpp"
 
